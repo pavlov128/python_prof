@@ -23,9 +23,8 @@ def check_internet_datetime() -> bool:
 
 def read_file_text(filePath):
     res = ''
-    with open(filePath) as file:
+    with open(filePath, encoding="utf-8") as file:
         res = file.read()
-
     return res
 
 
