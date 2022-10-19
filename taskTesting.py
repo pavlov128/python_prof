@@ -21,7 +21,7 @@ def check_internet_datetime() -> bool:
         return False
 
 
-def readFileText(filePath):
+def read_file_text(filePath):
     res = ''
     with open(filePath) as file:
         res = file.read()
@@ -29,32 +29,32 @@ def readFileText(filePath):
     return res
 
 
-def extractTests(fileName) -> dict:
+def extract_tests(fileName) -> dict:
 
-    directoryToExtractTo = './tests/temp/'+fileName
+    directory_to_extract = './tests/temp/'+fileName
 
-    if not os.path.isdir(directoryToExtractTo):
+    if not os.path.isdir(directory_to_extract):
         with ZipFile('./tests/'+fileName) as zip_file:
-            zip_file.extractall(directoryToExtractTo)
+            zip_file.extractall(directory_to_extract)
 
-    all_files = os.listdir(directoryToExtractTo)
+    all_files = os.listdir(directory_to_extract)
     exec_files = list(filter(lambda x: not x.endswith('.clue'), all_files))
     clue_files = list(filter(lambda x: x.endswith('.clue'), all_files))
 
-    exec_data = [readFileText(directoryToExtractTo+'/'+x) for x in exec_files]
-    clue_data = [readFileText(directoryToExtractTo+'/'+x) for x in clue_files]
+    exec_data = [read_file_text(directory_to_extract+'/'+x) for x in exec_files]
+    clue_data = [read_file_text(directory_to_extract+'/'+x) for x in clue_files]
     data = tuple(zip(exec_data, clue_data))
 
     return dict(zip(exec_files, data))
 
 
-def removeFolder(fileName):
-    directoryToRemove = './tests/temp/'+fileName
-    shutil.rmtree(directoryToRemove)
+def remove_folder(fileName):
+    directory_to_remove = './tests/temp/'+fileName
+    shutil.rmtree(directory_to_remove)
 
 
-def main(fileName):
-    print(extractTests(fileName))
+def main(file_name):
+    print(extract_tests(file_name))
     # removeFolder(fileName)
 
 
