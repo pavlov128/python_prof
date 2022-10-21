@@ -21,19 +21,19 @@ def check_internet_datetime() -> bool:
         return False
 
 
-def read_file_text(filePath):
+def read_file_text(filePath: str):
     res = ''
     with open(filePath, encoding="utf-8") as file:
         res = file.read()
     return res
 
 
-def extract_tests(fileName) -> dict:
+def extract_tests(file_name: str) -> dict:
 
-    directory_to_extract = './tests/temp/'+fileName
+    directory_to_extract = './tests/temp/'+file_name
 
     if not os.path.isdir(directory_to_extract):
-        with ZipFile('./tests/'+fileName) as zip_file:
+        with ZipFile('./tests/'+file_name) as zip_file:
             zip_file.extractall(directory_to_extract)
 
     all_files = os.listdir(directory_to_extract)
@@ -42,17 +42,18 @@ def extract_tests(fileName) -> dict:
 
     exec_data = [read_file_text(directory_to_extract+'/'+x) for x in exec_files]
     clue_data = [read_file_text(directory_to_extract+'/'+x) for x in clue_files]
+
     data = tuple(zip(exec_data, clue_data))
 
     return dict(zip(exec_files, data))
 
 
-def remove_folder(fileName):
-    directory_to_remove = './tests/temp/'+fileName
+def remove_folder(file_name: str):
+    directory_to_remove = './tests/temp/'+file_name
     shutil.rmtree(directory_to_remove)
 
 
-def main(file_name):
+def main(file_name: str):
     print(extract_tests(file_name))
     # removeFolder(fileName)
 
